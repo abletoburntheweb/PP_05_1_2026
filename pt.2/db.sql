@@ -2,12 +2,12 @@
 -- PostgreSQL database dump
 --
 
-\restrict OdhMQvLZJZ6ZbKQc9CCmpzarPMLrAO67vJy3ZJSMS76xghl50ViU1UcRKU071BN
+\restrict wGW0YgY4WggsCAiX4sHlVeLNGIxPsYbWaTKOTM2hm9CNqgnvGx5gccUufghnSoa
 
 -- Dumped from database version 18.0
 -- Dumped by pg_dump version 18.0
 
--- Started on 2026-03-19 19:55:59
+-- Started on 2026-04-10 02:00:41
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -75,7 +75,7 @@ CREATE SEQUENCE public.customer_orders_id_seq
 ALTER SEQUENCE public.customer_orders_id_seq OWNER TO postgres;
 
 --
--- TOC entry 5016 (class 0 OID 0)
+-- TOC entry 5033 (class 0 OID 0)
 -- Dependencies: 230
 -- Name: customer_orders_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -115,7 +115,7 @@ CREATE SEQUENCE public.material_prices_id_seq
 ALTER SEQUENCE public.material_prices_id_seq OWNER TO postgres;
 
 --
--- TOC entry 5017 (class 0 OID 0)
+-- TOC entry 5034 (class 0 OID 0)
 -- Dependencies: 224
 -- Name: material_prices_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -170,7 +170,7 @@ CREATE SEQUENCE public.order_items_id_seq
 ALTER SEQUENCE public.order_items_id_seq OWNER TO postgres;
 
 --
--- TOC entry 5018 (class 0 OID 0)
+-- TOC entry 5035 (class 0 OID 0)
 -- Dependencies: 232
 -- Name: order_items_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -210,7 +210,7 @@ CREATE SEQUENCE public.product_prices_id_seq
 ALTER SEQUENCE public.product_prices_id_seq OWNER TO postgres;
 
 --
--- TOC entry 5019 (class 0 OID 0)
+-- TOC entry 5036 (class 0 OID 0)
 -- Dependencies: 222
 -- Name: product_prices_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -251,7 +251,7 @@ CREATE SEQUENCE public.production_tasks_id_seq
 ALTER SEQUENCE public.production_tasks_id_seq OWNER TO postgres;
 
 --
--- TOC entry 5020 (class 0 OID 0)
+-- TOC entry 5037 (class 0 OID 0)
 -- Dependencies: 234
 -- Name: production_tasks_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -305,7 +305,7 @@ CREATE SEQUENCE public.specification_items_id_seq
 ALTER SEQUENCE public.specification_items_id_seq OWNER TO postgres;
 
 --
--- TOC entry 5021 (class 0 OID 0)
+-- TOC entry 5038 (class 0 OID 0)
 -- Dependencies: 228
 -- Name: specification_items_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -344,7 +344,7 @@ CREATE SEQUENCE public.specifications_id_seq
 ALTER SEQUENCE public.specifications_id_seq OWNER TO postgres;
 
 --
--- TOC entry 5022 (class 0 OID 0)
+-- TOC entry 5039 (class 0 OID 0)
 -- Dependencies: 226
 -- Name: specifications_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -353,7 +353,52 @@ ALTER SEQUENCE public.specifications_id_seq OWNED BY public.specifications.id;
 
 
 --
--- TOC entry 4805 (class 2604 OID 17194)
+-- TOC entry 237 (class 1259 OID 17340)
+-- Name: users; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.users (
+    id integer NOT NULL,
+    login character varying(50) NOT NULL,
+    password_hash character varying(255) NOT NULL,
+    role character varying(20) NOT NULL,
+    is_blocked boolean DEFAULT false,
+    block_count integer DEFAULT 0,
+    CONSTRAINT check_block_count CHECK ((block_count >= 0)),
+    CONSTRAINT check_user_role CHECK (((role)::text = ANY ((ARRAY['Администратор'::character varying, 'Пользователь'::character varying])::text[]))),
+    CONSTRAINT users_role_check CHECK (((role)::text = ANY ((ARRAY['Администратор'::character varying, 'Пользователь'::character varying])::text[])))
+);
+
+
+ALTER TABLE public.users OWNER TO postgres;
+
+--
+-- TOC entry 236 (class 1259 OID 17339)
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.users_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.users_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 5040 (class 0 OID 0)
+-- Dependencies: 236
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
+
+
+--
+-- TOC entry 4810 (class 2604 OID 17194)
 -- Name: customer_orders id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -361,7 +406,7 @@ ALTER TABLE ONLY public.customer_orders ALTER COLUMN id SET DEFAULT nextval('pub
 
 
 --
--- TOC entry 4801 (class 2604 OID 17141)
+-- TOC entry 4806 (class 2604 OID 17141)
 -- Name: material_prices id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -369,7 +414,7 @@ ALTER TABLE ONLY public.material_prices ALTER COLUMN id SET DEFAULT nextval('pub
 
 
 --
--- TOC entry 4807 (class 2604 OID 17213)
+-- TOC entry 4812 (class 2604 OID 17213)
 -- Name: order_items id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -377,7 +422,7 @@ ALTER TABLE ONLY public.order_items ALTER COLUMN id SET DEFAULT nextval('public.
 
 
 --
--- TOC entry 4799 (class 2604 OID 17124)
+-- TOC entry 4804 (class 2604 OID 17124)
 -- Name: product_prices id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -385,7 +430,7 @@ ALTER TABLE ONLY public.product_prices ALTER COLUMN id SET DEFAULT nextval('publ
 
 
 --
--- TOC entry 4808 (class 2604 OID 17235)
+-- TOC entry 4813 (class 2604 OID 17235)
 -- Name: production_tasks id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -393,7 +438,7 @@ ALTER TABLE ONLY public.production_tasks ALTER COLUMN id SET DEFAULT nextval('pu
 
 
 --
--- TOC entry 4804 (class 2604 OID 17173)
+-- TOC entry 4809 (class 2604 OID 17173)
 -- Name: specification_items id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -401,7 +446,7 @@ ALTER TABLE ONLY public.specification_items ALTER COLUMN id SET DEFAULT nextval(
 
 
 --
--- TOC entry 4803 (class 2604 OID 17158)
+-- TOC entry 4808 (class 2604 OID 17158)
 -- Name: specifications id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -409,7 +454,15 @@ ALTER TABLE ONLY public.specifications ALTER COLUMN id SET DEFAULT nextval('publ
 
 
 --
--- TOC entry 4994 (class 0 OID 17089)
+-- TOC entry 4815 (class 2604 OID 17343)
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
+
+
+--
+-- TOC entry 5009 (class 0 OID 17089)
 -- Dependencies: 219
 -- Data for Name: contractors; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -425,7 +478,7 @@ COPY public.contractors (id, name, inn, address, phone, is_supplier, is_customer
 
 
 --
--- TOC entry 5006 (class 0 OID 17191)
+-- TOC entry 5021 (class 0 OID 17191)
 -- Dependencies: 231
 -- Data for Name: customer_orders; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -436,7 +489,7 @@ COPY public.customer_orders (id, order_number, order_date, customer_id) FROM std
 
 
 --
--- TOC entry 5000 (class 0 OID 17138)
+-- TOC entry 5015 (class 0 OID 17138)
 -- Dependencies: 225
 -- Data for Name: material_prices; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -448,7 +501,7 @@ COPY public.material_prices (id, material_id, price, valid_from) FROM stdin;
 
 
 --
--- TOC entry 4996 (class 0 OID 17110)
+-- TOC entry 5011 (class 0 OID 17110)
 -- Dependencies: 221
 -- Data for Name: materials; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -460,7 +513,7 @@ COPY public.materials (id, name, unit) FROM stdin;
 
 
 --
--- TOC entry 5008 (class 0 OID 17210)
+-- TOC entry 5023 (class 0 OID 17210)
 -- Dependencies: 233
 -- Data for Name: order_items; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -473,7 +526,7 @@ COPY public.order_items (id, order_id, product_id, quantity, price) FROM stdin;
 
 
 --
--- TOC entry 4998 (class 0 OID 17121)
+-- TOC entry 5013 (class 0 OID 17121)
 -- Dependencies: 223
 -- Data for Name: product_prices; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -489,7 +542,7 @@ COPY public.product_prices (id, product_id, price, valid_from) FROM stdin;
 
 
 --
--- TOC entry 5010 (class 0 OID 17232)
+-- TOC entry 5025 (class 0 OID 17232)
 -- Dependencies: 235
 -- Data for Name: production_tasks; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -500,7 +553,7 @@ COPY public.production_tasks (id, task_number, task_date, specification_id, plan
 
 
 --
--- TOC entry 4995 (class 0 OID 17100)
+-- TOC entry 5010 (class 0 OID 17100)
 -- Dependencies: 220
 -- Data for Name: products; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -516,7 +569,7 @@ COPY public.products (id, name, unit) FROM stdin;
 
 
 --
--- TOC entry 5004 (class 0 OID 17170)
+-- TOC entry 5019 (class 0 OID 17170)
 -- Dependencies: 229
 -- Data for Name: specification_items; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -524,22 +577,38 @@ COPY public.products (id, name, unit) FROM stdin;
 COPY public.specification_items (id, specification_id, material_id, quantity) FROM stdin;
 1	1	НФ-00000004	0.90000
 2	1	НФ-00000005	0.07000
+3	2	НФ-00000004	0.85000
+4	2	НФ-00000005	0.05000
 \.
 
 
 --
--- TOC entry 5002 (class 0 OID 17155)
+-- TOC entry 5017 (class 0 OID 17155)
 -- Dependencies: 227
 -- Data for Name: specifications; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.specifications (id, name, product_id) FROM stdin;
 1	Основная Сметана 15%	НФ-00000006
+2	Основная Спецификация Кефира 2.5%	НФ-00000007
 \.
 
 
 --
--- TOC entry 5023 (class 0 OID 0)
+-- TOC entry 5027 (class 0 OID 17340)
+-- Dependencies: 237
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.users (id, login, password_hash, role, is_blocked, block_count) FROM stdin;
+1	admin	1221	Администратор	f	0
+2	user	1234	Пользователь	f	1
+6	user1	1221	Пользователь	t	2
+\.
+
+
+--
+-- TOC entry 5041 (class 0 OID 0)
 -- Dependencies: 230
 -- Name: customer_orders_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -548,7 +617,7 @@ SELECT pg_catalog.setval('public.customer_orders_id_seq', 1, true);
 
 
 --
--- TOC entry 5024 (class 0 OID 0)
+-- TOC entry 5042 (class 0 OID 0)
 -- Dependencies: 224
 -- Name: material_prices_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -557,7 +626,7 @@ SELECT pg_catalog.setval('public.material_prices_id_seq', 2, true);
 
 
 --
--- TOC entry 5025 (class 0 OID 0)
+-- TOC entry 5043 (class 0 OID 0)
 -- Dependencies: 232
 -- Name: order_items_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -566,7 +635,7 @@ SELECT pg_catalog.setval('public.order_items_id_seq', 3, true);
 
 
 --
--- TOC entry 5026 (class 0 OID 0)
+-- TOC entry 5044 (class 0 OID 0)
 -- Dependencies: 222
 -- Name: product_prices_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -575,7 +644,7 @@ SELECT pg_catalog.setval('public.product_prices_id_seq', 6, true);
 
 
 --
--- TOC entry 5027 (class 0 OID 0)
+-- TOC entry 5045 (class 0 OID 0)
 -- Dependencies: 234
 -- Name: production_tasks_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -584,7 +653,7 @@ SELECT pg_catalog.setval('public.production_tasks_id_seq', 1, true);
 
 
 --
--- TOC entry 5028 (class 0 OID 0)
+-- TOC entry 5046 (class 0 OID 0)
 -- Dependencies: 228
 -- Name: specification_items_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -593,7 +662,7 @@ SELECT pg_catalog.setval('public.specification_items_id_seq', 2, true);
 
 
 --
--- TOC entry 5029 (class 0 OID 0)
+-- TOC entry 5047 (class 0 OID 0)
 -- Dependencies: 226
 -- Name: specifications_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -602,7 +671,16 @@ SELECT pg_catalog.setval('public.specifications_id_seq', 1, true);
 
 
 --
--- TOC entry 4811 (class 2606 OID 17099)
+-- TOC entry 5048 (class 0 OID 0)
+-- Dependencies: 236
+-- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.users_id_seq', 6, true);
+
+
+--
+-- TOC entry 4822 (class 2606 OID 17099)
 -- Name: contractors contractors_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -611,7 +689,7 @@ ALTER TABLE ONLY public.contractors
 
 
 --
--- TOC entry 4829 (class 2606 OID 17203)
+-- TOC entry 4840 (class 2606 OID 17203)
 -- Name: customer_orders customer_orders_order_number_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -620,7 +698,7 @@ ALTER TABLE ONLY public.customer_orders
 
 
 --
--- TOC entry 4831 (class 2606 OID 17201)
+-- TOC entry 4842 (class 2606 OID 17201)
 -- Name: customer_orders customer_orders_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -629,7 +707,7 @@ ALTER TABLE ONLY public.customer_orders
 
 
 --
--- TOC entry 4823 (class 2606 OID 17148)
+-- TOC entry 4834 (class 2606 OID 17148)
 -- Name: material_prices material_prices_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -638,7 +716,7 @@ ALTER TABLE ONLY public.material_prices
 
 
 --
--- TOC entry 4817 (class 2606 OID 17119)
+-- TOC entry 4828 (class 2606 OID 17119)
 -- Name: materials materials_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -647,7 +725,7 @@ ALTER TABLE ONLY public.materials
 
 
 --
--- TOC entry 4819 (class 2606 OID 17117)
+-- TOC entry 4830 (class 2606 OID 17117)
 -- Name: materials materials_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -656,7 +734,7 @@ ALTER TABLE ONLY public.materials
 
 
 --
--- TOC entry 4833 (class 2606 OID 17220)
+-- TOC entry 4844 (class 2606 OID 17220)
 -- Name: order_items order_items_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -665,7 +743,7 @@ ALTER TABLE ONLY public.order_items
 
 
 --
--- TOC entry 4821 (class 2606 OID 17131)
+-- TOC entry 4832 (class 2606 OID 17131)
 -- Name: product_prices product_prices_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -674,7 +752,7 @@ ALTER TABLE ONLY public.product_prices
 
 
 --
--- TOC entry 4835 (class 2606 OID 17243)
+-- TOC entry 4846 (class 2606 OID 17243)
 -- Name: production_tasks production_tasks_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -683,7 +761,7 @@ ALTER TABLE ONLY public.production_tasks
 
 
 --
--- TOC entry 4837 (class 2606 OID 17245)
+-- TOC entry 4848 (class 2606 OID 17245)
 -- Name: production_tasks production_tasks_task_number_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -692,7 +770,7 @@ ALTER TABLE ONLY public.production_tasks
 
 
 --
--- TOC entry 4813 (class 2606 OID 17109)
+-- TOC entry 4824 (class 2606 OID 17109)
 -- Name: products products_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -701,7 +779,7 @@ ALTER TABLE ONLY public.products
 
 
 --
--- TOC entry 4815 (class 2606 OID 17107)
+-- TOC entry 4826 (class 2606 OID 17107)
 -- Name: products products_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -710,7 +788,7 @@ ALTER TABLE ONLY public.products
 
 
 --
--- TOC entry 4827 (class 2606 OID 17179)
+-- TOC entry 4838 (class 2606 OID 17179)
 -- Name: specification_items specification_items_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -719,7 +797,7 @@ ALTER TABLE ONLY public.specification_items
 
 
 --
--- TOC entry 4825 (class 2606 OID 17163)
+-- TOC entry 4836 (class 2606 OID 17163)
 -- Name: specifications specifications_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -728,7 +806,25 @@ ALTER TABLE ONLY public.specifications
 
 
 --
--- TOC entry 4839 (class 2606 OID 17149)
+-- TOC entry 4850 (class 2606 OID 17354)
+-- Name: users users_login_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_login_key UNIQUE (login);
+
+
+--
+-- TOC entry 4852 (class 2606 OID 17352)
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4854 (class 2606 OID 17149)
 -- Name: material_prices fk_material_prices_material; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -737,7 +833,7 @@ ALTER TABLE ONLY public.material_prices
 
 
 --
--- TOC entry 4844 (class 2606 OID 17221)
+-- TOC entry 4859 (class 2606 OID 17221)
 -- Name: order_items fk_order_items_order; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -746,7 +842,7 @@ ALTER TABLE ONLY public.order_items
 
 
 --
--- TOC entry 4845 (class 2606 OID 17226)
+-- TOC entry 4860 (class 2606 OID 17226)
 -- Name: order_items fk_order_items_product; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -755,7 +851,7 @@ ALTER TABLE ONLY public.order_items
 
 
 --
--- TOC entry 4843 (class 2606 OID 17204)
+-- TOC entry 4858 (class 2606 OID 17204)
 -- Name: customer_orders fk_orders_customer; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -764,7 +860,7 @@ ALTER TABLE ONLY public.customer_orders
 
 
 --
--- TOC entry 4838 (class 2606 OID 17132)
+-- TOC entry 4853 (class 2606 OID 17132)
 -- Name: product_prices fk_product_prices_product; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -773,7 +869,7 @@ ALTER TABLE ONLY public.product_prices
 
 
 --
--- TOC entry 4846 (class 2606 OID 17246)
+-- TOC entry 4861 (class 2606 OID 17246)
 -- Name: production_tasks fk_production_spec; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -782,7 +878,7 @@ ALTER TABLE ONLY public.production_tasks
 
 
 --
--- TOC entry 4841 (class 2606 OID 17185)
+-- TOC entry 4856 (class 2606 OID 17185)
 -- Name: specification_items fk_spec_items_material; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -791,7 +887,7 @@ ALTER TABLE ONLY public.specification_items
 
 
 --
--- TOC entry 4842 (class 2606 OID 17180)
+-- TOC entry 4857 (class 2606 OID 17180)
 -- Name: specification_items fk_spec_items_spec; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -800,7 +896,7 @@ ALTER TABLE ONLY public.specification_items
 
 
 --
--- TOC entry 4840 (class 2606 OID 17164)
+-- TOC entry 4855 (class 2606 OID 17164)
 -- Name: specifications fk_specifications_product; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -808,11 +904,11 @@ ALTER TABLE ONLY public.specifications
     ADD CONSTRAINT fk_specifications_product FOREIGN KEY (product_id) REFERENCES public.products(id) ON DELETE CASCADE;
 
 
--- Completed on 2026-03-19 19:56:00
+-- Completed on 2026-04-10 02:00:41
 
 --
 -- PostgreSQL database dump complete
 --
 
-\unrestrict OdhMQvLZJZ6ZbKQc9CCmpzarPMLrAO67vJy3ZJSMS76xghl50ViU1UcRKU071BN
+\unrestrict wGW0YgY4WggsCAiX4sHlVeLNGIxPsYbWaTKOTM2hm9CNqgnvGx5gccUufghnSoa
 
